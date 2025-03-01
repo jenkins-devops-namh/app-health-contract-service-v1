@@ -10,7 +10,7 @@ pipeline {
     stage('Clone') {
       steps {
         timeout(time: 2, unit: 'MINUTES'){
-          git 'https://github.com/jenkins-devops-namh/repasando-programacion.git'
+          git 'https://github.com/jenkins-devops-namh/app-health-contract-service-v1.git'
         }
       }
     }
