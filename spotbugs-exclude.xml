@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.core\.model\**.*"/>
+    <Bug pattern="UUF_UNUSED_FIELD, EI_EXPOSE_REP, EI_EXPOSE_REP2"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.application\.hlthcontracthealth\.model\**.*"/>
+    <Bug pattern="UUF_UNUSED_FIELD, EI_EXPOSE_REP, EI_EXPOSE_REP2, SE_BAD_FIELD, OPM_OVERLY_PERMISSIVE_METHOD"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.application\.hlthcontracthealth\.util\**.*"/>
+    <Bug pattern="SBSC_USE_STRINGBUFFER_CONCATENATION, IMPROPER_UNICODE"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.application\.hlthcontracthealth\.expose\.web\**.*"/>
+    <Bug pattern="SPRING_ENDPOINT, IMC_IMMATURE_CLASS_NO_TOSTRING"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.support\.hlthcontracthealth\.model\.entity\**.*"/>
+    <Bug pattern="UPM_UNCALLED_PRIVATE_METHOD, JPAI_INEFFICIENT_EAGER_FETCH,  USBR_UNNECESSARY_STORE_BEFORE_RETURN"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.application\.hlthcontracthealth\.adapter\**.*"/>
+    <Bug pattern="CE_CLASS_ENVY"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.application\.hlthcontracthealth\.business\.impl"/>
+    <Bug pattern="CE_CLASS_ENVY, JPAI_UNNECESSARY_TRANSACTION_EXCEPTION_HANDLING"/>
+  </Match>
+  <Match>
+    <Package name="~com\.pe\.incabridge\.services\.support\.hlthcontracthealth\**.*"/>
+    <Bug pattern="CRLF_INJECTION_LOGS, RFI_SET_ACCESSIBLE,  BC_UNCONFIRMED_CAST"/>
+  </Match>
+</FindBugsFilter>

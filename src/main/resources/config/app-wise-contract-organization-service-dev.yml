@@ -1,0 +1,51 @@
+atlas:
+  event:
+    kafka:
+      header:
+        required:
+          enabled: true
+          names:
+            - app-code
+            - caller-name
+            - Request-ID
+            - Authorization
+      active: true
+      producers:
+        default:
+          properties: # some custom kafka properties
+            #           bootstrap.servers: ehubeu2atlad01.servicebus.windows.net:9093
+            bootstrap.servers: ehubeu2ntlcd01.servicebus.windows.net:9093
+            request.timeout.ms: 60000
+            connections.max.idle.ms : 180000
+            metadata.max.age.ms : 180000
+            metadata.max.idle.ms : 180000
+            security.protocol: SASL_SSL
+            group.id: com-bcp-ntlc-approval-events
+            sasl.mechanism: PLAIN
+            #            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2atlad01.servicebus.windows.net/;SharedAccessKeyName=ehub_F972_sas;SharedAccessKey=1TNOuX2bfYWI5xvuzwxlIK8gDNOpDEz/7a87Su0RZAA=";
+            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2ntlcd01.servicebus.windows.net/;SharedAccessKeyName=ehub_ntlc_sas;SharedAccessKey=XOSqFI8kYy9nmsri3QC9/KT2xiSVeOItnQgFcki8Wlw=";
+            enable.auto.commit: false
+            auto.offset.reset: earliest
+            poll: 3000
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+        hlth-topic:
+          topic: "hlth"
+          properties:
+            bootstrap.servers: ehubeu2ntlcd01.servicebus.windows.net:9093
+            request.timeout.ms: 60000
+            connections.max.idle.ms : 180000
+            metadata.max.age.ms : 180000
+            metadata.max.idle.ms : 180000
+            security.protocol: SASL_SSL
+            sasl.mechanism: PLAIN
+            #            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2ntlcd01.servicebus.windows.net/;SharedAccessKeyName=ehub_ntlc_sas;SharedAccessKey=XOSqFI8kYy9nmsri3QC9/KT2xiSVeOItnQgFcki8Wlw=;SharedAccessKey=lcCH738mP4oS7VcFvwTubCXjaX9pfdWbtn+5EfBE/L8=";
+            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2ntlcd01.servicebus.windows.net/;SharedAccessKeyName=ehub_ntlc_sas;SharedAccessKey=XOSqFI8kYy9nmsri3QC9/KT2xiSVeOItnQgFcki8Wlw=";
+            group.id: com-bcp-ntlc-approval-events
+            enable.auto.commit: false
+            auto.offset.reset: earliest
+            acks: all
+            retries: 0
+            poll: 3000
+            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+            value.serializer: org.apache.kafka.common.serialization.StringSerializer

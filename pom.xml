@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		 xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.pe.incabridge.services</groupId>
+		<artifactId>incabridge-services-parent</artifactId>
+		<version>2.6.0</version>
+		<relativePath/>
+	</parent>
+
+
+	<groupId>com.pe.incabridge.services.application.hlthcontracthealth</groupId>
+
+	<artifactId>app-health-contract-service</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>app health contract  service</name>
+	<description>Creado para el ambito de contratos y sus empresas</description>
+
+	<properties>
+		<server.resource>service</server.resource>
+	</properties>
+
+	<inceptionYear>2025</inceptionYear>
+
+	<organization>
+		<name>Incabridge Desarrollo de Software</name>
+		<url>http://www.incabridge.com.pe/</url>
+	</organization>
+
+	<developers>
+		<developer>
+			<id>iromero</id>
+			<name>Israel Romero</name>
+			<email>israelalkarim@gmail.com</email>
+			<organization>Everis</organization>
+			<timezone>America/Lima</timezone>
+			<roles>
+				<role>Software Developer</role>
+			</roles>
+		</developer>
+	</developers>
+
+	<ciManagement>
+		<system>Bamboo</system>
+	</ciManagement>
+
+	<issueManagement>
+		<system>Jira</system>
+	</issueManagement>
+
+	<dependencies>
+		<!--Atlas Web Starter -->
+		<dependency>
+			<groupId>com.pe.incabridge</groupId>
+			<artifactId>incabridge-core-starter-web</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-starter-amqp</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework.cloud</groupId>
+					<artifactId>spring-cloud-starter-bus-amqp</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+		<!-- COMPONENTS -->
+		<!--Atlas Support Sql Component -->
+		<!-- Starter -->
+		<!--		<dependency>-->
+		<!--			<groupId>com.pe.incabridge</groupId>-->
+		<!--			<artifactId>atlas-core-starter-mssql</artifactId>-->
+		<!--			<exclusions>-->
+		<!--				<exclusion>-->
+		<!--					<groupId>org.springframework.boot</groupId>-->
+		<!--					<artifactId>spring-boot-starter</artifactId>-->
+		<!--				</exclusion>-->
+		<!--			</exclusions>-->
+		<!--		</dependency>-->
+
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<version>9.4.0.jre8</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-core</artifactId>
+			<version>1.23.0</version>
+		</dependency>
+
+		<!--		<dependency>-->
+		<!--			<groupId>com.pe.incabridge</groupId>-->
+		<!--			<artifactId>atlas-core-starter-event</artifactId>-->
+		<!--		</dependency>-->
+
+		<!--		<dependency>-->
+		<!--			<groupId>com.pe.incabridge</groupId>-->
+		<!--			<artifactId>atlas-event-starter-kafka</artifactId>-->
+		<!--		</dependency>-->
+
+		<!--		<dependency>-->
+		<!--			<groupId>org.springframework.kafka</groupId>-->
+		<!--			<artifactId>spring-kafka-test</artifactId>-->
+		<!--			<version>2.6.0</version>-->
+		<!--			<scope>test</scope>-->
+		<!--		</dependency>-->
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>kafka</artifactId>
+			<version>1.9.1</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- JDBC Driver-->
+		<!-- <dependency>
+          <groupId>com.microsoft.sqlserver</groupId>
+          <artifactId>mssql-jdbc</artifactId>
+        </dependency> -->
+		<!--<dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+        </dependency> -->
+		<!-- END COMPONENTS -->
+		<!-- Tests -->
+		<dependency>
+			<groupId>com.pe.incabridge</groupId>
+			<artifactId>incabridge-core-starter-openapi</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>com.pe.incabridge</groupId>
+			<artifactId>incabridge-core-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>1.2.3</version> <!-- Use the latest version here -->
+		</dependency>
+
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-core-http-netty</artifactId>
+			<version>1.11.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.azure</groupId>
+			<artifactId>azure-core-http-okhttp</artifactId>
+			<version>1.7.2</version>
+		</dependency>
+
+	</dependencies>
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-starter-logging</artifactId>
+				<exclusions>
+					<exclusion>
+						<groupId>org.apache.logging.log4j</groupId>
+						<artifactId>log4j-to-slf4j</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+	<build>
+		<defaultGoal>spring-boot:run</defaultGoal>
+
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.github.spotbugs</groupId>
+				<artifactId>spotbugs-maven-plugin</artifactId>
+				<configuration>
+					<effort>Max</effort>
+					<threshold>Low</threshold> <!-- Low/Default/High -->
+					<failOnError>true</failOnError>
+					<excludeFilterFile>spotbugs-exclude.xml</excludeFilterFile>
+					<plugins>
+						<plugin>
+							<groupId>com.mebigfatguy.fb-contrib</groupId>
+							<artifactId>fb-contrib</artifactId>
+							<version>7.4.3.sb</version>
+						</plugin>
+						<plugin>
+							<groupId>com.h3xstream.findsecbugs</groupId>
+							<artifactId>findsecbugs-plugin</artifactId>
+							<version>LATEST</version>
+						</plugin>
+					</plugins>
+				</configuration>
+				<executions>
+					<execution>
+						<goals>
+							<goal>check</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-checkstyle-plugin</artifactId>
+				<configuration>
+					<configLocation>checkstyle.xml</configLocation>
+					<suppressionsLocation>checkstyle-suppressions.xml</suppressionsLocation>
+					<suppressionsFileExpression>checkstyle.suppressions.file</suppressionsFileExpression>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+			</plugin>
+			<!-- Plugin generador de clientes Rest y Modelos segun contrato -->
+			<!-- 			<plugin> -->
+			<!-- 				<groupId>io.swagger</groupId> -->
+			<!-- 				<artifactId>swagger-codegen-maven-plugin</artifactId> -->
+			<!-- 				<version>2.2.3</version> -->
+			<!-- 				<executions> -->
+			<!-- 					<execution> -->
+			<!-- 						<goals> -->
+			<!-- 							<goal>generate</goal> -->
+			<!-- 						</goals> -->
+			<!-- 						<configuration> -->
+			<!-- 							<inputSpec>/src/main/resources/swagger/clients/contracts/dummy.json</inputSpec> -->
+			<!-- 							<language>java</language> -->
+			<!-- 							<library>retrofit2</library> -->
+			<!-- 				            <generateApis>true</generateApis> -->
+			<!-- 				            <generateApiTests>false</generateApiTests> -->
+			<!-- 				            <generateSupportingFiles>false</generateSupportingFiles> -->
+			<!-- 				            <generateModelDocumentation>false</generateModelDocumentation> -->
+			<!-- 				            <generateModels>true</generateModels> -->
+			<!-- 				            <generateModelTests>false</generateModelTests> -->
+			<!-- 							<configOptions> -->
+			<!-- 				               <sourceFolder>/</sourceFolder> -->
+			<!-- 				               <testSourceFolder>/</testSourceFolder> -->
+			<!-- 				            </configOptions> -->
+			<!-- 				            <output></output> -->
+			<!-- 				            <addCompileSourceRoot>true</addCompileSourceRoot> -->
+			<!-- 				            <modelPackage>.productservice.model.thirdparty.cards</modelPackage> -->
+			<!-- 				            <apiPackage>.productservice.proxy.cards</apiPackage> -->
+			<!-- 						</configuration> -->
+			<!-- 					</execution> -->
+			<!-- 				</executions> -->
+			<!-- 			</plugin> -->
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version> <!-- Asegúrate de tener la última versión -->
+				<configuration>
+					<source>11</source> <!-- Cambia a la versión adecuada de Java -->
+					<target>11</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<configuration scan="true">
+  <!-- Solo para desarrollo-->
+  <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+  <!-- Antes de mandar a certificacion y produccion descomentar esto y comentar lo de arriba
+  <include resource="org/springframework/boot/logging/logback/defaults.xml" />-->
+
+  <appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+    <ssl />
+    <destination>${LOGSTASH_SOCKET}</destination>
+
+    <encoder class="com.pe.incabridge.core.starter.logstash.logback.encoder.LoggingEventCompositeJsonObfuscatorEncoder">
+
+      <providers>
+        <timestamp/>
+        <mdc/> <!-- MDC variables on the Thread will be written as JSON fields -->
+        <context/> <!--Outputs entries from logback's context -->
+        <version/> <!-- Logstash json format version, the @version field in the output -->
+        <logLevel level="ERROR"/>
+        <loggerName/>
+
+        <pattern>
+          <!-- we can add some custom fields to be sent with all the log entries. -->
+          <!--make filtering easier in Logstash -->
+          <!--or searching with Kibana -->
+          <pattern>
+            {
+            "service-name": "${service.name}",
+            "service-version": "${service.version}",
+            "service-type": "${service.type}"
+            }
+          </pattern>
+        </pattern>
+
+        <threadName/>
+        <message/>
+
+        <logstashMarkers/> <!-- Useful so we can add extra information for specific log lines as Markers -->
+        <arguments/> <!--or through StructuredArguments -->
+
+        <stackTrace/>
+      </providers>
+    </encoder>
+  </appender>
+
+  <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+    <queueSize>512</queueSize>
+    <appender-ref ref="STASH"/>
+  </appender>
+
+  <root level="#logback.loglevel#">
+    <appender-ref ref="ASYNC"/>
+  </root>
+
+  <logger name="javax.activation" level="ERROR"/>
+  <logger name="javax.mail" level="ERROR"/>
+  <logger name="javax.xml.bind" level="ERROR"/>
+  <logger name="ch.qos.logback" level="ERROR"/>
+  <logger name="com.codahale.metrics" level="ERROR"/>
+  <logger name="com.netflix" level="ERROR"/>
+  <logger name="com.netflix.discovery" level="ERROR"/>
+  <logger name="com.ryantenney" level="ERROR"/>
+  <logger name="com.sun" level="ERROR"/>
+  <logger name="com.zaxxer" level="ERROR"/>
+  <logger name="org.eclipse.jetty" level="ERROR"/>
+  <logger name="org.apache" level="ERROR"/>
+  <logger name="org.apache.catalina.startup.DigesterFactory" level="OFF"/>
+  <logger name="org.bson" level="ERROR"/>
+  <logger name="org.hibernate.validator" level="ERROR"/>
+  <logger name="org.mongodb.driver" level="ERROR"/>
+  <logger name="org.reflections" level="ERROR"/>
+  <logger name="org.springframework" level="ERROR"/>
+  <logger name="org.springframework.web" level="ERROR"/>
+  <logger name="org.springframework.security" level="ERROR"/>
+  <logger name="org.springframework.cache" level="ERROR"/>
+  <logger name="org.springframework.cloud" level="ERROR"/>
+  <logger name="org.thymeleaf" level="ERROR"/>
+  <logger name="org.xnio" level="ERROR"/>
+  <logger name="springfox" level="ERROR"/>
+  <logger name="reactor" level="ERROR"/>
+  <logger name="io.github.resilience4j" level="ERROR"/>
+  <logger name="io.netty" level="ERROR"/>
+  <logger name="sun.rmi" level="ERROR"/>
+  <logger name="sun.net.www" level="ERROR"/>
+  <logger name="sun.rmi.transport" level="ERROR"/>
+  <logger name="com.pe.incabridge" level="ERROR"/>
+
+  <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <resetJUL>true</resetJUL>
+  </contextListener>
+
+</configuration>

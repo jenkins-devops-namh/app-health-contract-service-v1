@@ -1,0 +1,121 @@
+spring:
+  application:
+    name: app-hlth-health-contract-service
+  cloud:
+    config:
+      name: app-hlth-health-contract-service-v1
+      label: atlas-2.4
+    kubernetes:
+      config:
+        namespace: app-hlth-health-contract-service-v1
+  datasource:
+    driverClassName: com.microsoft.sqlserver.jdbc.SQLServerDriver
+    url: 'jdbc:sqlserver://192.168.1.8:1433;databaseName=hlth;'
+    username: sa
+    password: Local2024!@
+  jpa:
+    open-in-view: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.SQLServerDialect
+        default_schema: "dbo"
+        enable_lazy_load_no_trans: true
+    hibernate:
+      ddl-auto: none
+      dialect: org.hibernate.dialect.SQLServerDialect
+      type: trace
+    show-sql: true
+application:
+  authorization:
+    gateway:
+      enabled: false
+  atlas:
+    obfuscation-rules:
+      enabled: true
+    obfuscation:
+      active: true
+      specific-sensitive-fields:
+        - name: 'documentNumber'
+          config[0]:
+            minLength: 8
+            maxLength: 12
+            regExp: '^[\W\w]*([\w\W]{3})+$'
+            replacement: '****************$1'
+            active: true
+        - name: 'legalDocumentNumber'
+          config[0]:
+            minLength: 8
+            maxLength: 12
+            regExp: '^[\W\w]*([\w\W]{3})+$'
+            replacement: '****************$1'
+            active: true
+        - name: 'organizationCompleteName'
+          config[0]:
+            minLength: 0
+            maxLength: 350
+            regExp: '^([\w\W]{3})[\W\w]+$'
+            replacement: '$1******************'
+            active: true
+encrypt:
+  key: 294979e512cb8e79370dabecadc3fcbb849e78d2d6bd2049
+server:
+  port: 9019
+logging.level:
+  com.pe.incabridge: INFO
+  com.pe.incabridge.core.starter.web.advice.logging.http: TRACE
+  com.pe.incabridge.core.http.client.interceptor.AtlasOkHttpLoggingInterceptor: TRACE
+  com.pe.incabridge.services.application.hlthcontractorganization: INFO
+  com.pe.incabridge.log.sensitive.server: TRACE
+  com.pe.incabridge.log.sensitive.client: TRACE
+
+
+#atlas:
+#  event:
+#    kafka:
+#      header:
+#        required:
+#          enabled: true
+#          names:
+#            - app-code
+#            - caller-name
+#            - Request-ID
+#            - Authorization
+#      active: true
+#      producers:
+#        default:
+#          properties: # some custom kafka properties
+#            bootstrap.servers: ehubeu2hlthd01.servicebus.windows.net:9093
+#            #bootstrap.servers: localhost:9092
+#            request.timeout.ms: 60000
+#            connections.max.idle.ms : 180000
+#            metadata.max.age.ms : 180000
+#            metadata.max.idle.ms : 180000
+#            security.protocol: SASL_SSL
+#            group.id: hlth-producer-event
+#            sasl.mechanism: PLAIN
+#            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2hlthd01.servicebus.windows.net/;SharedAccessKeyName=ehub_hlth_sas;SharedAccessKey=PoZeEeI00dA7yxIjJn26mktx/WijJw2Q/ayw7e9H1+k=";
+#            enable.auto.commit: false
+#            auto.offset.reset: earliest
+#            poll: 3000
+#            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+#            value.serializer: org.apache.kafka.common.serialization.StringSerializer
+#        hlth-topic:
+#          topic: "hlth-output-event"
+#          properties:
+#            bootstrap.servers: ehubeu2hlthd01.servicebus.windows.net:9093
+#            #bootstrap.servers: localhost:9092
+#            request.timeout.ms: 60000
+#            connections.max.idle.ms : 180000
+#            metadata.max.age.ms : 180000
+#            metadata.max.idle.ms : 180000
+#            security.protocol: SASL_SSL
+#            sasl.mechanism: PLAIN
+#            sasl.jaas.config: org.apache.kafka.common.security.plain.PlainLoginModule required username="$ConnectionString" password="Endpoint=sb://ehubeu2hlthd01.servicebus.windows.net/;SharedAccessKeyName=ehub_hlth_sas;SharedAccessKey=PoZeEeI00dA7yxIjJn26mktx/WijJw2Q/ayw7e9H1+k=";
+#            group.id: hlth-producer-event
+#            enable.auto.commit: false
+#            auto.offset.reset: earliest
+#            acks: all
+#            retries: 0
+#            poll: 3000
+#            key.serializer: org.apache.kafka.common.serialization.StringSerializer
+#            value.serializer: org.apache.kafka.common.serialization.StringSerializer

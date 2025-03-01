@@ -1,0 +1,47 @@
+springdoc:
+  api-docs:
+    enabled: true
+    path: '/openapi'
+  remove-broken-reference-definitions: false
+
+spring:
+  application:
+    name: app-hlth-health-contract-service
+  cloud:
+    config:
+      name: app-hlth-health-contract-service-v1
+      label: atlas-2.4
+    kubernetes:
+      config:
+        namespace: app-hlth-health-contract-service-v1
+  webflux:
+    base-path: '/application/hlth/v1/health-contract-services'
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+  main:
+    allow-bean-definition-overriding: true
+    lazy-initialization: true
+  profiles.active: local
+info:
+  project:
+    name: @project.name@
+    description: @project.description@
+    version: @project.version@
+    type: cross
+    artifact-id: @project.artifactId@
+
+application:
+  atlas.openapi:
+    info:
+      version: '1.0.1-SNAPSHOT'
+      title: 'hlth Contract Organization Service Microservice'
+      contact:
+        name: 'Office Banking - Intranet - Ragnarok'
+        url: ##...
+        email: 'test@incabridge.com.pe'
+
+management:
+  endpoints:
+    web:
+      base-path: '/application/hlth/v1/health-contract-services/actuator'

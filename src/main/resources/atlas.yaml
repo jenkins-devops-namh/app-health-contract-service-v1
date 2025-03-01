@@ -1,0 +1,546 @@
+openapi: 3.0.1
+components:
+  parameters:
+    Authorization:
+      name: Authorization
+      in: header
+      description: Token de Authorizacion
+      required: false
+      schema:
+        type: string
+
+    user-doc-number:
+      name: user-doc-number
+      in: header
+      description: Numero de documento
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+
+    request-date:
+      name: request-date
+      in: header
+      description: 'Fecha de la peticion'
+      required: true
+      schema:
+        type: string
+        format: date-time
+        maxLength: 29
+
+    user-doc-type:
+      name: user-doc-type
+      in: header
+      description: 'Codigo de tipo de documento (1: DNI, 6: RUC)'
+      required: false
+      schema:
+        type: string
+        maxLength: 1
+        minLength: 1
+
+    user-code:
+      name: user-code
+      in: header
+      description: 'Codigo de usuario'
+      required: false
+      schema:
+        type: string
+        maxLength: 7
+
+    supervisor-code:
+      name: supervisor-code
+      in: header
+      description: 'Matricula del supervisor'
+      required: false
+      schema:
+        type: string
+        maxLength: 7
+
+    org-code:
+      name: org-code
+      in: header
+      description: 'Codigo de la organizacion (1: BCP)'
+      required: false
+      schema:
+        type: string
+        maxLength: 1
+        minLength: 1
+
+    server-terminal:
+      name: server-terminal
+      in: header
+      description: 'Identificador de terminal CICS (Tambi??n denominado TETI)'
+      required: false
+      schema:
+        type: string
+        maxLength: 4
+
+    server-app:
+      name: server-app
+      in: header
+      description: 'Identificador de terminal para la aplicacion cliente. Ya sea de canal
+        de    ventanilla o ATM manejan su propio identificador.'
+      required: false
+      schema:
+        type: string
+        maxLength: 15
+
+    server-name:
+      name: server-name
+      in: header
+      description: 'Nombre del Nodo Cliente: Nombre del nodo donde se ejecuta la
+        aplicacion    que envia la auditoria.'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    server-ip:
+      name: server-ip
+      in: header
+      description: 'Identificador de terminal para la aplicacion cliente. Ya sea de canal
+        de    ventanilla o ATM manejan su propio identificador.'
+      required: false
+      schema:
+        type: string
+        maxLength: 16
+        pattern: ^\S*$
+
+    branch-office-code:
+      name: branch-office-code
+      in: header
+      description: 'Codigo de sucursal en la que se realiza la operacion tanto fisica
+        como    virtual.'
+      required: false
+      schema:
+        type: string
+        maxLength: 3
+
+    agency-code:
+      name: agency-code
+      in: header
+      description: 'Codigo de la agencia'
+      required: false
+      schema:
+        type: string
+        maxLength: 3
+
+    client-code:
+      name: client-code
+      in: header
+      description: 'Identificador de Canal: Canal configurado del cual se almacenara la
+        auditoria.'
+      required: false
+      schema:
+        type: string
+        maxLength: 10
+
+    Request-ID:
+      name: Request-ID
+      in: header
+      description: 'Este campo es un valor estandar ya existente y sera usado como
+        identificador.'
+      required: true
+      schema:
+        type: string
+        maxLength: 36
+        pattern: ^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[34][0-9a-fA-F]{3}-[89ab][0-9a-fA-F]{3}-[0-9a-fA-F]{12}$
+        example: '550e8400-e29b-41d4-a716-446655440000'
+    session-UID:
+      name: session-UID
+      in: header
+      description: 'Llave de Sesion: Identificador unico que permitira vincular todos
+        los eventos relacionados a una sesion del usuario.'
+      required: false
+      schema:
+        type: string
+        maxLength: 200
+
+    start-date:
+      name: start-date
+      in: header
+      description: 'Fecha de inicio de la transaccion/Fecha de ejecucion de operacion que
+        viaja al core y estara impresa en el comprobante. Debe ser enviada por
+        el canal.'
+      required: false
+      schema:
+        type: string
+        maxLength: 29
+        format: date-time
+
+    end-date:
+      name: end-date
+      in: header
+      description: 'Fecha de fin de la transaccion/Fecha de ejecucion de operacion    que
+        viaja al core y estara impresa en el comprobante. Debe ser enviada
+        por el canal.'
+      required: false
+      schema:
+        type: string
+        maxLength: 29
+        format: date-time
+
+    start-date-tech:
+      name: start-date-tech
+      in: header
+      description: 'Fecha de envio auditoria Req. Mapeara la fecha en la que se envio el
+        mensaje al flujo de procesamiento. (Put Cola de auditoria).'
+      required: false
+      schema:
+        type: string
+        maxLength: 29
+        format: date-time
+
+    app-code:
+      name: app-code
+      in: header
+      description: 'Codigo de la aplicacion  que invoca el servicio. Se debe usar    el
+        codigo de 2 caracteres que tienen asignada las aplicaciones, puede
+        ser    el canal.'
+      required: true
+      schema:
+        type: string
+        maxLength: 2
+        minLength: 2
+
+    caller-name:
+      name: caller-name
+      in: header
+      description: 'Nombre de la API que realiza la invocacion al servicio.'
+      required: true
+      schema:
+        type: string
+        maxLength: 100
+        minLength: 5
+
+    app-name:
+      name: app-name
+      in: header
+      description: 'Nombre descriptivo de la aplicacion.'
+      required: false
+      schema:
+        type: string
+        maxLength: 15
+
+    dest-app-code:
+      name: dest-app-code
+      in: header
+      description: 'Codigo de la aplicacion de destino.'
+      required: false
+      schema:
+        type: string
+        maxLength: 2
+
+    login:
+      name: login
+      in: header
+      description: 'Login Usuario: Dato que representa al usuario logueado a una
+        aplicacion. Ejemplo: numero de credimas, numero de tarjeta de cr??dito
+        o    usuario de login.'
+      required: false
+      schema:
+        type: string
+        maxLength: 25
+
+    cust-doc-number:
+      name: cust-doc-number
+      in: header
+      description: 'Numero del documento de identificacion del cliente. Puede ser    un dni,
+        ruc, etc.'
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+
+    cust-doc-type:
+      name: cust-doc-type
+      in: header
+      description: 'Codigo del tipo de documento de identificacion del cliente.    Ejemplo:
+        1=DNI, 6=RUC.'
+      required: false
+      schema:
+        type: string
+        maxLength: 1
+        minLength: 1
+
+    cust-full-name:
+      name: cust-full-name
+      in: header
+      description: 'Nombres y Apellidos del Cliente: Se utilizara este campo  el    caso que
+        el cliente no lo tenga separado.'
+      required: false
+      schema:
+        type: string
+        maxLength: 200
+
+    cust-name:
+      name: cust-name
+      in: header
+      description: 'Nombre Cliente: Nombres del cliente que realizo la operacion   .'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    cust-father-last-name:
+      name: cust-father-last-name
+      in: header
+      description: 'Primer Apellido Cliente: Primer apellido del cliente que    realizo la
+        operacion.'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    cust-mother-last-name:
+      name: cust-mother-last-name
+      in: header
+      description: 'Segundo Apellido Cliente: Segundo apellido del cliente que    realizo la
+        operacion.'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    cust-email:
+      name: cust-email
+      in: header
+      description: 'Correo Cliente: Correo Primario del Cliente.'
+      required: false
+      schema:
+        type: string
+        maxLength: 70
+
+    cust-profile-code:
+      name: cust-profile-code
+      in: header
+      description: 'Perfil: Agrupamiento del segmento.'
+      required: false
+      schema:
+        type: string
+        maxLength: 60
+
+    cust-seg-code:
+      name: cust-seg-code
+      in: header
+      description: 'Segmento Cliente: Segmento al que pertenece el cliente.'
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+
+    cust-seg-sub-code:
+      name: cust-seg-sub-code
+      in: header
+      description: 'Subcategoria del segmento.'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    card-number:
+      name: card-number
+      in: header
+      description: 'Numero de tarjeta con el que se identifica la operacion del    cliente.'
+      required: false
+      schema:
+        type: string
+        maxLength: 25
+        minLength: 16
+        pattern: ^\S*$
+
+    product-number:
+      name: product-number
+      in: header
+      description: 'Numero del producto (Nro de cuenta, poliza, etc). Formato no    editado.'
+      required: false
+      schema:
+        type: string
+        maxLength: 25
+        pattern: ^\S*$
+
+    tio-aux:
+      name: tio-aux
+      in: header
+      description: 'Codigo identificador del producto.'
+      required: false
+      schema:
+        type: string
+        maxLength: 6
+        pattern: ^\S*$
+
+    orig-device-id:
+      name: orig-device-id
+      in: header
+      description: 'Codigo identificador del dispositivo.'
+      required: false
+      schema:
+        type: string
+        maxLength: 17
+
+    orig-device-ip:
+      name: orig-device-ip
+      in: header
+      description: 'IP del dispositivo que interactua con la aplicacion.'
+      required: false
+      schema:
+        type: string
+        maxLength: 15
+        pattern: ^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$
+
+    orig-device-mac:
+      name: orig-device-mac
+      in: header
+      description: 'MAC del dispositivo'
+      required: false
+      schema:
+        type: string
+        maxLength: 17
+        pattern: '^[a-fA-F0-9:]{17}|[a-fA-F0-9]{12}$'
+
+    orig-device-number:
+      name: orig-device-number
+      in: header
+      description: 'Numero del dispositivo'
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+
+    orig-device-reference:
+      name: orig-device-reference
+      in: header
+      description: 'Referencia adicional para identificar dispositivo.'
+      required: false
+      schema:
+        type: string
+        maxLength: 40
+
+    device-info:
+      name: device-info
+      in: header
+      description: 'Dispositivo por el cual accede el usuario formato json.'
+      required: false
+      schema:
+        type: string
+        maxLength: 250
+
+    opn-type:
+      name: opn-type
+      in: header
+      description: 'Representa el tipo de Operacion (monetaria, consulta, etc.)'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    opn-code:
+      name: opn-code
+      in: header
+      description: 'Identificador de la operacion de negocio, esta ligado al usuario'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    opn-sub-code:
+      name: opn-sub-code
+      in: header
+      description: 'Modalidad o subcategoria de la operacion de negocio'
+      required: false
+      schema:
+        type: string
+        maxLength: 50
+
+    opn-number:
+      name: opn-number
+      in: header
+      description: 'Numero de Operacion: Identificador que representa una operacion. Este
+        dato es generado por canal y consta de 8 digitos.'
+      required: false
+      schema:
+        type: string
+        maxLength: 8
+
+    opn-reverse-number:
+      name: opn-reverse-number
+      in: header
+      description: 'Numero de la operacion que se desea revertir'
+      required: false
+      schema:
+        type: string
+        maxLength: 8
+
+    opn-amount:
+      name: opn-amount
+      in: header
+      description: 'Monto: Monto de la Operacion Invocada.'
+      required: false
+      schema:
+        type: string
+        maxLength: 20
+        minLength: 0
+
+    opn-currency-code:
+      name: opn-currency-code
+      in: header
+      description: 'Identificador de Moneda: Id de la moneda de la Operacion.'
+      required: false
+      schema:
+        type: string
+        maxLength: 3
+
+    opn-exchange-rate:
+      name: opn-exchange-rate
+      in: header
+      description: 'Monto del tipo de cambio a utilizar para la operacion, en    caso sea
+        necesario.'
+      required: false
+      schema:
+        type: string
+        maxLength: 12
+
+  schemas:
+    ApiException:
+      title: ApiException
+      type: object
+      properties:
+        code:
+          type: string
+          description: Codigo de error de Sistema
+          example: TL0001
+        description:
+          type: string
+          description: Descripcion del error de Sistema
+          example: Error al llamar al servicio
+        errorType:
+          type: string
+          description: Tipo de Error de Sistema
+          example: TECHNICAL
+        exceptionDetails:
+          type: array
+          description: Lista de detalles del error
+          items:
+            $ref: '#/components/schemas/ApiExceptionDetail'
+        properties:
+          type: object
+          properties: {}
+          description: Lista de propiedades especiales.
+      description: Datos del error de sistema.
+    ApiExceptionDetail:
+      title: ApiExceptionDetail
+      type: object
+      properties:
+        code:
+          type: string
+          description: Codigo de error del Detalle/Proveedor
+          example: MB0008
+        component:
+          type: string
+          description: Nombre del componente de falla
+          example: MB.CardInqV2
+        description:
+          type: string
+          description: Descripcion del Detalle
+          example: Codigo invalido para el canal
+      description: Datos del error t??cnico.
