@@ -29,16 +29,31 @@ pipeline {
         }
       }
     }
+
     stage('Sonar') {
       steps {
         timeout(time: 2, unit: 'MINUTES'){
           withSonarQubeEnv('sonarqube'){
-            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
-            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar --Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
+            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
           }
         }
       }
     }
+
+
+//
+//    stage('Sonar') {
+//      steps {
+//        timeout(time: 2, unit: 'MINUTES'){
+//          withSonarQubeEnv('sonarqube'){
+//            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
+//            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar --Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
+//          }
+//        }
+//      }
+//    }
+//
+//
     stage('Quality gate') {
       steps {
 
