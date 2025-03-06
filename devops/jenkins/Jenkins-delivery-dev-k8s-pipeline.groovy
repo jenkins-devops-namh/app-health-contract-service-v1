@@ -3,7 +3,6 @@ pipeline {
   environment {
     SONAR_HOST_URL = 'http://sonarqube:9000'
     SONAR_PROJECT_KEY = 'app-health-contract-service-v1'
-    SONAR_TOKEN = credentials('sonar-token')
   }
 
   tools {
@@ -51,8 +50,7 @@ pipeline {
           sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar ' +
                   '-Dsonar.projectKey=${SONAR_PROJECT_KEY} ' +
                   '-Dsonar.java.binaries=target/classes ' +
-                  '-Dsonar.host.url=${SONAR_HOST_URL} ' +
-                  '-Dsonar.login=${SONAR_TOKEN}'
+                  '-Dsonar.host.url=${SONAR_HOST_URL} ' 
         }
       }
     }
