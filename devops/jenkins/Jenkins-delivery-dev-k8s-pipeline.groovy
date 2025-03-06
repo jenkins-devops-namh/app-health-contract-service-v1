@@ -6,6 +6,12 @@ pipeline {
     maven "MAVEN_HOME"
   }
 
+  environment {
+    SONAR_HOST_URL = 'http://sonarqube:9000'
+    SONAR_PROJECT_KEY = 'app-health-contract-service-v1'
+    SONAR_TOKEN = credentials('sonar-users')  // ID de credencial en Jenkins
+  }
+
   stages {
     stage('Clone') {
       steps {
@@ -30,12 +36,15 @@ pipeline {
       }
     }
 
-    stage('Sonar') {
+    stage('SonarQube Analysis') {
       steps {
-        timeout(time: 2, unit: 'MINUTES'){
-          withSonarQubeEnv('sonarqube'){
-            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
-          }
+        withSonarQubeEnv('sonarqube') {  // Nombre del servidor Sonar en Jenkins
+          sh """
+                        mvn sonar:sonar \
+                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                        -Dsonar.host.url=${SONAR_HOST_URL} \
+                        -Dsonar.login=${SONAR_TOKEN}
+                    """
         }
       }
     }
