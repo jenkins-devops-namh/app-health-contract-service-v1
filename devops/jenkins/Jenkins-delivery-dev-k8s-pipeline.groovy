@@ -32,26 +32,26 @@ pipeline {
         }
       }
     }
-//    stage('Sonar') {
-//      steps {
-//        timeout(time: 2, unit: 'MINUTES'){
-//          withSonarQubeEnv('sonarqube'){
-//            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
-//            sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar --Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
-//          }
-//        }
-//      }
-//    }
-
-    stage('SonarQube Analysis') {
+    stage('Sonar') {
       steps {
-          sh """
-                        mvn clean  org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar \
-                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
-                        -Dsonar.projectVersion=1.0.${env.BUILD_NUMBER} \\
-                    """
+        timeout(time: 2, unit: 'MINUTES'){
+          withSonarQubeEnv('sonarqube'){
+            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
+            sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar --Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
+          }
         }
       }
+    }
+
+//    stage('SonarQube Analysis') {
+//      steps {
+//          sh """
+//                        mvn clean  org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar \
+//                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+//                        -Dsonar.projectVersion=1.0.${env.BUILD_NUMBER} \\
+//                    """
+//        }
+//      }
 
     stage('Quality gate') {
       steps {
