@@ -1,18 +1,16 @@
 pipeline {
   agent any
   environment {
-    SONAR_PROJECT_KEY = 'pp-health-contract-service-v1-${env.BUILD_NUMBER}'
+    SONAR_HOST_URL = 'http://sonarqube:9000'
+    SONAR_PROJECT_KEY = 'app-health-contract-service-v1'
+    SONAR_TOKEN = credentials('sonar-token')
   }
 
   tools {
     // Install the Maven version configured as "M3" and add it to the path.
     maven "MAVEN_HOME"
   }
-  environment {
-    SONAR_HOST_URL = 'http://sonarqube:9000'
-    SONAR_PROJECT_KEY = 'app-health-contract-service-v1'
-    SONAR_TOKEN = credentials('sonar-token')
-  }
+
   stages {
     stage('Clone') {
       steps {
