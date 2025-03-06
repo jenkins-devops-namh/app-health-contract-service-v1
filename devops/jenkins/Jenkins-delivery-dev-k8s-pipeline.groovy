@@ -1,5 +1,8 @@
 pipeline {
   agent any
+  environment {
+    SONAR_PROJECT_KEY = 'pp-health-contract-service-v1-${env.BUILD_NUMBER}'
+  }
 
   tools {
     // Install the Maven version configured as "M3" and add it to the path.
@@ -29,22 +32,6 @@ pipeline {
         }
       }
     }
-
-    stage('SonarQube Analysis') {
-      steps {
-        withSonarQubeEnv('sonarqube') {  // Nombre del servidor Sonar en Jenkins
-          sh """
-                        mvn sonar:sonar \
-                        -Dsonar.projectKey=app-health-contract-service-v1 \
-                        -Dsonar.host.url='http://sonarqube:9000' \
-                        -Dsonar.login=sonar-users
-                    """
-        }
-      }
-    }
-
-
-//
 //    stage('Sonar') {
 //      steps {
 //        timeout(time: 2, unit: 'MINUTES'){
@@ -55,8 +42,17 @@ pipeline {
 //        }
 //      }
 //    }
-//
-//
+
+    stage('SonarQube Analysis') {
+      steps {
+          sh """
+                        mvn clean  org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar \
+                        -Dsonar.projectKey=${SONAR_PROJECT_KEY} \
+                        -Dsonar.projectVersion=1.0.${env.BUILD_NUMBER} \\
+                    """
+        }
+      }
+
     stage('Quality gate') {
       steps {
 
