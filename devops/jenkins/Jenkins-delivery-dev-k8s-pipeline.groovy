@@ -8,7 +8,11 @@ pipeline {
     // Install the Maven version configured as "M3" and add it to the path.
     maven "MAVEN_HOME"
   }
-
+  environment {
+    SONAR_HOST_URL = 'http://sonarqube:9000'
+    SONAR_PROJECT_KEY = 'app-health-contract-service-v1'
+    SONAR_TOKEN = credentials('sonar-token')
+  }
   stages {
     stage('Clone') {
       steps {
@@ -32,16 +36,29 @@ pipeline {
         }
       }
     }
-    stage('Sonar') {
+//    stage('Sonar') {
+//      steps {
+//        timeout(time: 2, unit: 'MINUTES'){
+//          withSonarQubeEnv('sonarqube'){
+//            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
+//            sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
+//          }
+//        }
+//      }
+//    }
+
+    stage('SonarQube Analysis') {
       steps {
-        timeout(time: 2, unit: 'MINUTES'){
-          withSonarQubeEnv('sonarqube'){
-            // sh "mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Pcoverage -f pom.xml"
-            sh "mvn clean org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar -Dsonar.projectKey=app-health-contract-service-v1 -f pom.xml"
-          }
+        withSonarQubeEnv('SonarQube') {
+          sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar ' +
+                  '-Dsonar.projectKey=${SONAR_PROJECT_KEY} ' +
+                  '-Dsonar.java.binaries=target/classes ' +
+                  '-Dsonar.host.url=${SONAR_HOST_URL} ' +
+                  '-Dsonar.login=${SONAR_TOKEN}'
         }
       }
     }
+
 
 //    stage('SonarQube Analysis') {
 //      steps {
