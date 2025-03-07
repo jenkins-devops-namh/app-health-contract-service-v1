@@ -47,10 +47,8 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('SonarQube') {
-          sh 'mvn org.sonarsource.scanner.maven:sonar-maven-plugin:3.9.0.2155:sonar ' +
-                  '-Dsonar.projectKey=${SONAR_PROJECT_KEY} ' +
-                  '-Dsonar.java.binaries=target/classes ' +
-                  '-Dsonar.host.url=${SONAR_HOST_URL} ' 
+          sh 'mvn sonar:sonar -Dsonar.projectKey=app-health-contract-service-v1'
+
         }
       }
     }
