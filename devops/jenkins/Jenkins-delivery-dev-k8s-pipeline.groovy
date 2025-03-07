@@ -47,7 +47,7 @@ pipeline {
     stage('SonarQube Analysis') {
       steps {
         withSonarQubeEnv('sonarqube') {
-          sh 'mvn sonar:sonar -Dsonar.projectKey=app-health-contract-service-v1'
+          sh 'mvn clean sonar:sonar -Dsonar.projectKey=app-health-contract-service-v1'
 
         }
       }
